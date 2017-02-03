@@ -19,3 +19,5 @@ C:\Users\Westin\Documents\PeanutButterJellyTime\Temp\UnityVS_bin\Debug\UnityEdit
 C:\Users\Westin\Documents\PeanutButterJellyTime\Temp\UnityVS_obj\Debug\PeanutButterJellyTime.csprojResolveAssemblyReference.cache
 C:\Users\Westin\Documents\PeanutButterJellyTime\Temp\UnityVS_obj\Debug\Assembly-CSharp.dll
 C:\Users\Westin\Documents\PeanutButterJellyTime\Temp\UnityVS_obj\Debug\Assembly-CSharp.pdb
+C:\Users\Westin\Documents\PeanutButterJellyTime\Temp\UnityVS_bin\Debug\ConditionalExpression.dll
+C:\Users\Westin\Documents\PeanutButterJellyTime\Temp\UnityVS_bin\Debug\PlayMaker.dll
