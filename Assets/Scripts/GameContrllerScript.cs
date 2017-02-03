@@ -8,6 +8,7 @@ public class GameContrllerScript : MonoBehaviour {
 
     // Top object
     GameObject stackTop;
+    GameObject inAir;
 
     // reference to gaem object prefabs
     GameObject bread;
@@ -24,7 +25,12 @@ public class GameContrllerScript : MonoBehaviour {
     GameObject[] walls;
 
     // string for storing last object placed on pile
-    string topTag = "";
+    string newTag = "Bread";
+    string[] tower;
+
+
+    // PLayer Score
+    int score = 0;
 
     #endregion
 
@@ -45,13 +51,15 @@ public class GameContrllerScript : MonoBehaviour {
         walls = GameObject.FindGameObjectsWithTag("Wall");
 
         // GetComponent current object in the air
-        stackTop = GameObject.FindGameObjectWithTag("InAir");
+
+        inAir = GameObject.FindGameObjectWithTag("InAir");
+        tower = new string[2];
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-        if (stackTop.tag == "Floor")
+        if (inAir.transform.position.y < mainCamera.transform.position.y - 3)
         {
             SetScene();
         }
@@ -66,11 +74,17 @@ public class GameContrllerScript : MonoBehaviour {
         switch ((int)Random.Range(0, 3))
         {
             case 0:
+                newTag = "Bread";
                 return bread;
+                
             case 1:
+                newTag = "PB";
                 return peanutButter;
+                
             case 2:
+                newTag = "Jelly";
                 return jelly;
+                
         }
         return null;
     }
@@ -85,8 +99,8 @@ public class GameContrllerScript : MonoBehaviour {
             wall.transform.position = new Vector3(wall.transform.position.x, yPosition, wall.transform.position.z);
         }
         // create a new in air object
-        Instantiate<GameObject>(selectObject(), new Vector3(0, yPosition, 0), Quaternion.identity);
-        stackTop = null;
+        stackTop = inAir;
+        inAir = Instantiate<GameObject>(selectObject(), new Vector3(0, yPosition, 0), Quaternion.identity);
     }
 
     #endregion
