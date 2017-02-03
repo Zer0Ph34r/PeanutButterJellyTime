@@ -40,6 +40,8 @@ public class GameContrllerScript : MonoBehaviour {
     Text scoreText;
     [SerializeField]
     Text livesText;
+    [SerializeField]
+    bool infiniteLives;
     #endregion
 
 
@@ -59,7 +61,6 @@ public class GameContrllerScript : MonoBehaviour {
         walls = GameObject.FindGameObjectsWithTag("Wall");
 
         // GetComponent current object in the air
-
         inAir = GameObject.FindGameObjectWithTag("InAir");
         tower = new string[3];
         tower[0] = "PB";
@@ -78,10 +79,17 @@ public class GameContrllerScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        if (infiniteLives && lives < 3)
+        {
+            lives = 3;
+        }
+
         if (lives <= 0)
         {
             SceneManager.LoadScene("MainMenuScene");
         }
+
+        
 
         livesText.text = "Lives = " + lives;
         scoreText.text = "Score = " + score * 100;

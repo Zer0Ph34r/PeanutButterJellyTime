@@ -6,9 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuScritp : MonoBehaviour {
 
-	public void StartGame()
+	public void StartGame(string sceneName)
     {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene(sceneName);
     }
 
     public void ToggleButton(Button button)
