@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameContrllerScript : MonoBehaviour {
 
@@ -26,12 +28,18 @@ public class GameContrllerScript : MonoBehaviour {
 
     // string for storing last object placed on pile
     string newTag = "Bread";
-    string[] tower;
+    public string[] tower;
 
 
     // PLayer Score
     int score = 0;
+    int lives = 3;
 
+    // Serialized Fields
+    [SerializeField]
+    Text scoreText;
+    [SerializeField]
+    Text livesText;
     #endregion
 
 
@@ -53,8 +61,15 @@ public class GameContrllerScript : MonoBehaviour {
         // GetComponent current object in the air
 
         inAir = GameObject.FindGameObjectWithTag("InAir");
-        tower = new string[2];
-	}
+        tower = new string[3];
+        tower[0] = "PB";
+        tower[1] = "Jelly";
+        tower[2] = "Bread";
+
+        // set initial score and life text
+        livesText.text = "Lives = " + lives;
+        scoreText.text = "Score = " + score * 100;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -63,8 +78,16 @@ public class GameContrllerScript : MonoBehaviour {
         {
             SetScene();
         }
-		
-	}
+
+        if (lives <= 0)
+        {
+            SceneManager.LoadScene("MainMenuScene");
+        }
+
+        livesText.text = "Lives = " + lives;
+        scoreText.text = "Score = " + score * 100;
+
+    }
 
     #region Methods
 
@@ -98,6 +121,38 @@ public class GameContrllerScript : MonoBehaviour {
         {
             wall.transform.position = new Vector3(wall.transform.position.x, yPosition, wall.transform.position.z);
         }
+        // add new string to list
+        tower[2] = tower[1];
+        tower[1] = tower[0];
+        tower[0] = newTag;
+
+        // check for correct order of ingredients
+        if (tower[1] == "Bread" &&
+            (tower[0] == "PB" || tower[0] == "Jelly"))
+        {
+            score++;
+        }
+        else if ((tower[0] == "Jelly" &&
+            tower[1] == "PB") ||
+            (tower[0] == "PB" &&
+            tower[1] == "Jelly"))
+        {
+            score++;
+        }
+        if (tower[0] == "bread" &&
+            (tower[1] == "Jelly" &&
+            tower[2] == "PB") ||
+            (tower[1] == "PB" &&
+            tower[2] == "Jelly"))
+        {
+            score++;
+        }
+        else
+        {
+            score -= 5;
+        }
+
+
         // create a new in air object
         stackTop = inAir;
         inAir = Instantiate<GameObject>(selectObject(), new Vector3(0, yPosition, 0), Quaternion.identity);
