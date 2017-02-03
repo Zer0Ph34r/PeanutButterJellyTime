@@ -69,15 +69,19 @@ public class GameContrllerScript : MonoBehaviour {
         // set initial score and life text
         livesText.text = "Lives = " + lives;
         scoreText.text = "Score = " + score * 100;
+
+        // add event resolution
+        BelowBoundsScript.resolveCollision += SetScene;
+        BelowBoundsScript.resolveDrop += CheckLives;
     }
 	
 	// Update is called once per frame
 	void Update () {
 
-        if (inAir.transform.position.y < mainCamera.transform.position.y - 2.5f)
-        {
-            SetScene();
-        }
+        //if (inAir.transform.position.y < mainCamera.transform.position.y - 2.5f)
+        //{
+        //    SetScene();
+        //}
 
         if (lives <= 0)
         {
@@ -126,36 +130,77 @@ public class GameContrllerScript : MonoBehaviour {
         tower[1] = tower[0];
         tower[0] = newTag;
 
+        if (CheckScoring())
+        {
+            score++;
+        }
+        else
+        {
+            score -= 2;
+        }
+        
+
+        // create a new in air object
+        stackTop = inAir;
+        inAir = Instantiate<GameObject>(selectObject(), new Vector3(0, yPosition, 0), Quaternion.identity);
+    }
+
+    bool CheckScoring()
+    {
         // check for correct order of ingredients
         if (tower[1] == "Bread" &&
             (tower[0] == "PB" || tower[0] == "Jelly"))
         {
-            score++;
+            return true;
         }
         else if ((tower[0] == "Jelly" &&
             tower[1] == "PB") ||
             (tower[0] == "PB" &&
             tower[1] == "Jelly"))
         {
-            score++;
+            return true;
         }
-        if (tower[0] == "bread" &&
+        else if (tower[0] == "bread" &&
             (tower[1] == "Jelly" &&
             tower[2] == "PB") ||
             (tower[1] == "PB" &&
             tower[2] == "Jelly"))
         {
-            score++;
+            return true;
         }
         else
         {
-            score -= 5;
+            return false;
         }
+    }
 
-
-        // create a new in air object
-        stackTop = inAir;
-        inAir = Instantiate<GameObject>(selectObject(), new Vector3(0, yPosition, 0), Quaternion.identity);
+    void CheckLives()
+    {
+        // check for correct order of ingredients
+        if (tower[1] == "Bread" &&
+            (inAir.tag == "PB" || inAir.tag == "Jelly"))
+        {
+            lives--;
+        }
+        else if ((inAir.tag == "Jelly" &&
+            tower[1] == "PB") ||
+            (inAir.tag == "PB" &&
+            tower[1] == "Jelly"))
+        {
+            lives--;
+        }
+        else if (inAir.tag == "bread" &&
+            (tower[1] == "Jelly" &&
+            tower[2] == "PB") ||
+            (tower[1] == "PB" &&
+            tower[2] == "Jelly"))
+        {
+            lives--;
+        }
+        else
+        {
+            score++;
+        }
     }
 
     #endregion

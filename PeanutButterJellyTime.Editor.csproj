@@ -115,17 +115,17 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>Library\UnityAssemblies\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
-    <Reference Include="PlayMakerEditorResources">
-      <HintPath>Assets\PlayMaker\Editor\PlayMakerEditorResources.dll</HintPath>
-    </Reference>
-    <Reference Include="PlayMakerEditor">
-      <HintPath>Assets\PlayMaker\Editor\PlayMakerEditor.dll</HintPath>
+    <Reference Include="ConditionalExpression">
+      <HintPath>Assets\PlayMaker\ConditionalExpression.dll</HintPath>
     </Reference>
     <Reference Include="ConditionalExpressionEditor">
       <HintPath>Assets\PlayMaker\Editor\ConditionalExpressionEditor.dll</HintPath>
     </Reference>
-    <Reference Include="ConditionalExpression">
-      <HintPath>Assets\PlayMaker\ConditionalExpression.dll</HintPath>
+    <Reference Include="PlayMakerEditor">
+      <HintPath>Assets\PlayMaker\Editor\PlayMakerEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="PlayMakerEditorResources">
+      <HintPath>Assets\PlayMaker\Editor\PlayMakerEditorResources.dll</HintPath>
     </Reference>
     <Reference Include="PlayMaker">
       <HintPath>Assets\Plugins\PlayMaker\PlayMaker.dll</HintPath>

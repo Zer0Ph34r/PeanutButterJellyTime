@@ -6,6 +6,12 @@ public class BelowBoundsScript : MonoBehaviour {
 
     Camera mainCamera;
 
+    // Event creation
+    public delegate void onCollision();
+    public delegate void onDrop();
+    public static event onCollision resolveCollision;
+    public static event onDrop resolveDrop;
+
 	// Use this for initialization
 	void Start () {
         mainCamera = Camera.main;
@@ -18,7 +24,13 @@ public class BelowBoundsScript : MonoBehaviour {
         if (transform.position.y < mainCamera.transform.position.y - 6)
         {
             Destroy(gameObject);
+            resolveDrop();
         }
 		
 	}
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        resolveCollision();
+    }
 }
