@@ -81,7 +81,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\GameContrllerScript.cs" />
     <Compile Include="Assets\PlayMaker\Actions\ActivateGameObject.cs" />
     <Compile Include="Assets\PlayMaker\Actions\AddAnimationClip.cs" />
     <Compile Include="Assets\PlayMaker\Actions\AddComponent.cs" />
@@ -827,8 +826,8 @@
     <Compile Include="Assets\PlayMaker\Actions\iTween\iTweenStop.cs" />
     <Compile Include="Assets\PlayMaker\Include\iTweenFSMEvents.cs" />
     <Compile Include="Assets\PlayMaker\UpdateHelper.cs" />
+    <Compile Include="Assets\Scripts\GameContrllerScript.cs" />
     <Compile Include="Assets\Scripts\MainMenuScritp.cs" />
-    <Compile Include="Assets\Scripts\MovingScript.cs" />
     <Compile Include="Assets\iTween\iTween.cs" />
   </ItemGroup>
   <ItemGroup>
