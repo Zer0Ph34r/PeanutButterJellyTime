@@ -14,6 +14,7 @@ public class BelowBoundsScript : MonoBehaviour {
 
     // check if this item has alread hit the floor
     bool hit = false;
+    bool fell = false;
 
 	// Use this for initialization
 	void Start () {
@@ -24,10 +25,12 @@ public class BelowBoundsScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (transform.position.y < mainCamera.transform.position.y - 6)
+        if (transform.position.y < mainCamera.transform.position.y - 6 &&
+            !fell)
         {
-            Destroy(gameObject);
             resolveDrop();
+            Destroy(gameObject);
+            fell = true;
         }
 		
 	}

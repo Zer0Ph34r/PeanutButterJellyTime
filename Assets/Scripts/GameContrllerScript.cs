@@ -177,18 +177,18 @@ public class GameContrllerScript : MonoBehaviour {
     {
         // check for correct order of ingredients
         if (tower[1] == "Bread" &&
-            (inAir.tag == "PB" || inAir.tag == "Jelly"))
+            (newTag == "PB" || newTag == "Jelly"))
         {
             lives--;
         }
-        else if ((inAir.tag == "Jelly" &&
+        else if ((newTag == "Jelly" &&
             tower[1] == "PB") ||
-            (inAir.tag == "PB" &&
+            (newTag == "PB" &&
             tower[1] == "Jelly"))
         {
             lives--;
         }
-        else if (inAir.tag == "bread" &&
+        else if (newTag == "bread" &&
             (tower[1] == "Jelly" &&
             tower[2] == "PB") ||
             (tower[1] == "PB" &&
