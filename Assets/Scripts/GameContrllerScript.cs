@@ -17,6 +17,15 @@ public class GameContrllerScript : MonoBehaviour {
     // Current y position
     int yPosition = 0;
 
+    // reference to main camera
+    Camera mainCamera;
+
+    // reference to walls
+    GameObject[] walls;
+
+    // string for storing last object placed on pile
+    string topTag = "";
+
     #endregion
 
 
@@ -28,6 +37,13 @@ public class GameContrllerScript : MonoBehaviour {
         peanutButter = Resources.Load<GameObject>("Prefabs/PeanutButterPrefab");
         jelly = Resources.Load<GameObject>("Prefabs/JellyPrefab");
 
+        // Get Camera
+        mainCamera = Camera.main;
+
+        // Reference objects 
+        walls = new GameObject[2];
+        walls = GameObject.FindGameObjectsWithTag("Wall");
+
         // GetComponent current object in the air
         stackTop = GameObject.FindGameObjectWithTag("InAir");
 	}
@@ -37,7 +53,7 @@ public class GameContrllerScript : MonoBehaviour {
 
         if (stackTop.tag == "Floor")
         {
-            Instantiate<GameObject>(selectObject(), new Vector3(0, yPosition, 0), Quaternion.identity);
+            SetScene();
         }
 		
 	}
@@ -57,6 +73,20 @@ public class GameContrllerScript : MonoBehaviour {
                 return jelly;
         }
         return null;
+    }
+
+    void SetScene()
+    {
+        // Move camera and wall up by one so the tower can get as tall as possible
+        yPosition++;
+        mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, yPosition, mainCamera.transform.position.z);
+        foreach (GameObject wall in walls)
+        {
+            wall.transform.position = new Vector3(wall.transform.position.x, yPosition, wall.transform.position.z);
+        }
+        // create a new in air object
+        Instantiate<GameObject>(selectObject(), new Vector3(0, yPosition, 0), Quaternion.identity);
+        stackTop = null;
     }
 
     #endregion
