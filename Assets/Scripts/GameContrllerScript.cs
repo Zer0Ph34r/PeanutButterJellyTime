@@ -59,7 +59,7 @@ public class GameContrllerScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (inAir.transform.position.y < mainCamera.transform.position.y - 3)
+        if (inAir.transform.position.y < mainCamera.transform.position.y - 2.5f)
         {
             SetScene();
         }

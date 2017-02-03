@@ -826,6 +826,7 @@
     <Compile Include="Assets\PlayMaker\Actions\iTween\iTweenStop.cs" />
     <Compile Include="Assets\PlayMaker\Include\iTweenFSMEvents.cs" />
     <Compile Include="Assets\PlayMaker\UpdateHelper.cs" />
+    <Compile Include="Assets\Scripts\BelowBoundsScript.cs" />
     <Compile Include="Assets\Scripts\GameContrllerScript.cs" />
     <Compile Include="Assets\Scripts\MainMenuScritp.cs" />
     <Compile Include="Assets\iTween\iTween.cs" />
