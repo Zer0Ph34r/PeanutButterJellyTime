@@ -78,11 +78,6 @@ public class GameContrllerScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        //if (inAir.transform.position.y < mainCamera.transform.position.y - 2.5f)
-        //{
-        //    SetScene();
-        //}
-
         if (lives <= 0)
         {
             SceneManager.LoadScene("MainMenuScene");
@@ -116,6 +111,13 @@ public class GameContrllerScript : MonoBehaviour {
         return null;
     }
 
+    void CreateNewObject()
+    {
+        // create a new in air object
+        stackTop = inAir;
+        inAir = Instantiate<GameObject>(selectObject(), new Vector3(0, yPosition, 0), Quaternion.identity);
+    }
+
     void SetScene()
     {
         // Move camera and wall up by one so the tower can get as tall as possible
@@ -138,11 +140,8 @@ public class GameContrllerScript : MonoBehaviour {
         {
             score -= 2;
         }
-        
 
-        // create a new in air object
-        stackTop = inAir;
-        inAir = Instantiate<GameObject>(selectObject(), new Vector3(0, yPosition, 0), Quaternion.identity);
+        CreateNewObject();
     }
 
     bool CheckScoring()
@@ -201,6 +200,8 @@ public class GameContrllerScript : MonoBehaviour {
         {
             score++;
         }
+
+        CreateNewObject();
     }
 
     #endregion

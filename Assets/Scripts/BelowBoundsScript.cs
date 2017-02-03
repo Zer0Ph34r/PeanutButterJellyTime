@@ -12,6 +12,9 @@ public class BelowBoundsScript : MonoBehaviour {
     public static event onCollision resolveCollision;
     public static event onDrop resolveDrop;
 
+    // check if this item has alread hit the floor
+    bool hit = false;
+
 	// Use this for initialization
 	void Start () {
         mainCamera = Camera.main;
@@ -31,6 +34,11 @@ public class BelowBoundsScript : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        resolveCollision();
+        if (!hit)
+        {
+            resolveCollision();
+            hit = true;
+        }
+        
     }
 }

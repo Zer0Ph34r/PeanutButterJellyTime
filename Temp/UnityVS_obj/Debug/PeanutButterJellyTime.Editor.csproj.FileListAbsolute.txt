@@ -46,10 +46,6 @@ C:\Users\Westin\Documents\PeanutButterJellyTime\Temp\UnityVS_bin\Debug\UnityEdit
 C:\Users\Westin\Documents\PeanutButterJellyTime\Temp\UnityVS_bin\Debug\UnityEngine.HoloLens.xml
 C:\Users\Westin\Documents\PeanutButterJellyTime\Temp\UnityVS_bin\Debug\UnityEditor.VR.xml
 C:\Users\Westin\Documents\PeanutButterJellyTime\Temp\UnityVS_bin\Debug\UnityEngine.VR.xml
-C:\Users\Westin\Documents\PeanutButterJellyTime\Temp\UnityVS_bin\Debug\UnityEditor.Graphs.xml
-C:\Users\Westin\Documents\PeanutButterJellyTime\Temp\UnityVS_bin\Debug\UnityEditor.Android.Extensions.xml
-C:\Users\Westin\Documents\PeanutButterJellyTime\Temp\UnityVS_bin\Debug\UnityEditor.WindowsStandalone.Extensions.xml
-C:\Users\Westin\Documents\PeanutButterJellyTime\Temp\UnityVS_bin\Debug\SyntaxTree.VisualStudio.Unity.Bridge.xml
 C:\Users\Westin\Documents\PeanutButterJellyTime\Temp\UnityVS_bin\Debug\de\PlayMakerEditorResources.resources.dll
 C:\Users\Westin\Documents\PeanutButterJellyTime\Temp\UnityVS_bin\Debug\es-ES\PlayMakerEditorResources.resources.dll
 C:\Users\Westin\Documents\PeanutButterJellyTime\Temp\UnityVS_bin\Debug\fr\PlayMakerEditorResources.resources.dll
