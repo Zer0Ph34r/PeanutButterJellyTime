@@ -44,7 +44,6 @@ public class GameContrllerScript : MonoBehaviour {
     bool infiniteLives;
     #endregion
 
-
     // Use this for initialization
     void Start () {
 
@@ -89,8 +88,7 @@ public class GameContrllerScript : MonoBehaviour {
             SceneManager.LoadScene("MainMenuScene");
         }
 
-        
-
+        // Write strings
         livesText.text = "Lives = " + lives;
         scoreText.text = "Score = " + score * 100;
 
@@ -184,23 +182,23 @@ public class GameContrllerScript : MonoBehaviour {
     void CheckLives()
     {
         // check for correct order of ingredients
-        if (tower[1] == "Bread" &&
+        if (tower[0] == "Bread" &&
             (newTag == "PB" || newTag == "Jelly"))
         {
             lives--;
         }
         else if ((newTag == "Jelly" &&
-            tower[1] == "PB") ||
+            tower[0] == "PB") ||
             (newTag == "PB" &&
-            tower[1] == "Jelly"))
+            tower[0] == "Jelly"))
         {
             lives--;
         }
         else if (newTag == "bread" &&
-            (tower[1] == "Jelly" &&
-            tower[2] == "PB") ||
-            (tower[1] == "PB" &&
-            tower[2] == "Jelly"))
+            (tower[0] == "Jelly" &&
+            tower[1] == "PB") ||
+            (tower[0] == "PB" &&
+            tower[1] == "Jelly"))
         {
             lives--;
         }

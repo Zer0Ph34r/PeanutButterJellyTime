@@ -18,6 +18,7 @@ public class BelowBoundsScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
         mainCamera = Camera.main;
 
     }
@@ -25,7 +26,7 @@ public class BelowBoundsScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (transform.position.y < mainCamera.transform.position.y - 6 &&
+        if (transform.position.y < mainCamera.transform.position.y - 10 &&
             !fell)
         {
             resolveDrop();
@@ -37,10 +38,10 @@ public class BelowBoundsScript : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!hit)
+        if (!hit && collision.gameObject.tag == "Floor")
         {
-            resolveCollision();
             hit = true;
+            resolveCollision();
         }
         
     }
