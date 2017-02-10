@@ -57,6 +57,7 @@ public class BelowBoundsScript : MonoBehaviour {
         if (!hit && collision.gameObject.tag == "Floor")
         {
             hit = true;
+            fell = true;
             resolveCollision();
         }
         
