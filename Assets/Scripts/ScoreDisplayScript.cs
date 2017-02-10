@@ -61,7 +61,7 @@ public class ScoreDisplayScript : MonoBehaviour {
             + (GlobalsScript.SCORE * 100) + "\n"
             + "And Finally, your overall alignment of your tower: \n"
             + GlobalsScript.ALIGNMENT + "\n" + "\n"
-            + "That Leaves you with a score of : " + PercentageOfSuccess + "Out of 100 % Possible."
+            + "That Leaves you with a score of : " + (PercentageOfSuccess * 100) + "Out of 100 % Possible."
             + "\n\n" + "How did you do? Are you satisfied with your results?";
     }
 }

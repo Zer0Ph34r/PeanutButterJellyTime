@@ -223,18 +223,20 @@ public class GameContrllerScript : MonoBehaviour {
         {
             lives--;
         }
-        else if ((newTag == "Jelly" &&
-            tower[0] == "PB") ||
-            (newTag == "PB" &&
-            tower[0] == "Jelly"))
-        {
-            lives--;
-        }
         else if (newTag == "bread" &&
             (tower[0] == "Jelly" &&
             tower[1] == "PB") ||
             (tower[0] == "PB" &&
             tower[1] == "Jelly"))
+        {
+            lives--;
+        }
+        else if ((newTag == "Jelly" &&
+            tower[0] == "PB" &&
+            tower[1] == "Bread") ||
+            (newTag == "PB" &&
+            tower[0] == "Jelly" &&
+            tower[1] == "Bread"))
         {
             lives--;
         }
