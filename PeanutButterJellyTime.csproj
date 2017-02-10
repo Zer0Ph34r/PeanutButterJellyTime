@@ -828,7 +828,9 @@
     <Compile Include="Assets\PlayMaker\UpdateHelper.cs" />
     <Compile Include="Assets\Scripts\BelowBoundsScript.cs" />
     <Compile Include="Assets\Scripts\GameContrllerScript.cs" />
+    <Compile Include="Assets\Scripts\GlobalsScript.cs" />
     <Compile Include="Assets\Scripts\MainMenuScritp.cs" />
+    <Compile Include="Assets\Scripts\ScoreDisplayScript.cs" />
     <Compile Include="Assets\Scripts\TutorialControllerScript.cs" />
     <Compile Include="Assets\Scripts\TutorialScript.cs" />
     <Compile Include="Assets\iTween\iTween.cs" />

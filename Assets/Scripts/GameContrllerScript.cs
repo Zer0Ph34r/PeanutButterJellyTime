@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -28,8 +29,11 @@ public class GameContrllerScript : MonoBehaviour {
 
     // string for storing last object placed on pile
     string newTag = "Bread";
-    public string[] tower;
+    string[] tower;
+    public List<GameObject> sandwich;
 
+    // alignment variable for final scoring
+    float alignment = 0;
 
     // PLayer Score
     int score = 0;
@@ -51,6 +55,9 @@ public class GameContrllerScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+
+        // initialize sandwich list
+        sandwich = new List<GameObject>();
 
         // Load in game Prefabs
         bread = Resources.Load<GameObject>("Prefabs/BreadPrefab");
@@ -90,7 +97,7 @@ public class GameContrllerScript : MonoBehaviour {
 
         if (lives <= 0)
         {
-            SceneManager.LoadScene("MainMenuScene");
+            SceneManager.LoadScene("ScoringScene");
         }
 
         if (Input.GetKeyDown(KeyCode.P))
@@ -109,6 +116,14 @@ public class GameContrllerScript : MonoBehaviour {
         livesText.text = "Lives = " + lives;
         scoreText.text = "Score = " + score * 100;
 
+        // Record alignment of stack
+        alignment = 0;
+        foreach (GameObject slice in sandwich)
+        {
+            alignment += (Math.Abs(slice.transform.position.x) / sandwich.Count);
+        }
+        GlobalsScript.ALIGNMENT = alignment;
+
     }
 
     #region Methods
@@ -116,7 +131,7 @@ public class GameContrllerScript : MonoBehaviour {
     // return a random onject to create
     GameObject selectObject()
     {
-        switch ((int)Random.Range(0, 3))
+        switch ((int)UnityEngine.Random.Range(0, 3))
         {
             case 0:
                 newTag = "Bread";
@@ -163,12 +178,16 @@ public class GameContrllerScript : MonoBehaviour {
         {
             score -= 2;
         }
+        GlobalsScript.SCORE = score;
 
         CreateNewObject();
     }
 
     bool CheckScoring()
     {
+        // add to list of objects
+        sandwich.Add(inAir);
+        GlobalsScript.SLICES++;
         // check for correct order of ingredients
         if (tower[1] == "Bread" &&
             (tower[0] == "PB" || tower[0] == "Jelly"))
