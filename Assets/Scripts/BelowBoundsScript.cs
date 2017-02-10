@@ -16,11 +16,14 @@ public class BelowBoundsScript : MonoBehaviour {
     bool hit = false;
     bool fell = false;
 
-	// Use this for initialization
-	void Start () {
+    // Object renderer
+    Renderer obRend;
+
+    // Use this for initialization
+    void Start () {
 
         mainCamera = Camera.main;
-
+        obRend = gameObject.GetComponent<Renderer>();
     }
 	
 	// Update is called once per frame
@@ -33,8 +36,21 @@ public class BelowBoundsScript : MonoBehaviour {
             Destroy(gameObject);
             fell = true;
         }
-		
-	}
+
+        // MakeObject Invisibe
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (obRend.enabled)
+            {
+                obRend.enabled = false;
+            }
+            else
+            {
+                obRend.enabled = true;
+            }
+        }
+
+    }
 
     private void OnCollisionEnter(Collision collision)
     {

@@ -42,6 +42,11 @@ public class GameContrllerScript : MonoBehaviour {
     Text livesText;
     [SerializeField]
     bool infiniteLives;
+
+    // Tutorial Stuff
+    [SerializeField]
+    Canvas Tutorial;
+
     #endregion
 
     // Use this for initialization
@@ -86,6 +91,18 @@ public class GameContrllerScript : MonoBehaviour {
         if (lives <= 0)
         {
             SceneManager.LoadScene("MainMenuScene");
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (Tutorial.isActiveAndEnabled)
+            {
+                Tutorial.gameObject.SetActive(false);
+            }
+            else
+            {
+                Tutorial.gameObject.SetActive(true);
+            }
         }
 
         // Write strings
