@@ -6,6 +6,12 @@ using UnityEngine.UI;
 
 public class TutorialControllerScript : MonoBehaviour
 {
+    #region Tutorial Phase Enum
+
+    enum Phase {First, Second, Third };
+    
+    #endregion
+
 
     #region Fields
 
@@ -50,6 +56,9 @@ public class TutorialControllerScript : MonoBehaviour
     [SerializeField]
     Canvas Tutorial;
 
+    Phase tutorialPhase = Phase.First;
+    int sliceCount = 0;
+
     #endregion
 
     // Use this for initialization
@@ -83,13 +92,14 @@ public class TutorialControllerScript : MonoBehaviour
         // add event resolution
         BelowBoundsScript.resolveCollision += SetScene;
         BelowBoundsScript.resolveDrop += CheckLives;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        if (infiniteLives && lives < 3)
+        if (infiniteLives && lives < 3 && tutorialPhase != Phase.Third)
         {
             lives = 3;
         }
@@ -114,7 +124,10 @@ public class TutorialControllerScript : MonoBehaviour
         // Write strings
         livesText.text = "Lives = " + lives;
         scoreText.text = "Score = " + score * 100;
-
+        if (tutorialPhase == Phase.Third)
+        {
+            feedbackText.text = "Alright, you've done well so far, now you don't get anymore infinite lives.  The platform in the final test will be smaller than this one, so hone your skills while you can";
+        }
     }
 
     #region Methods
@@ -122,23 +135,45 @@ public class TutorialControllerScript : MonoBehaviour
     // return a random onject to create
     GameObject selectObject()
     {
-        switch ((int)Random.Range(0, 3))
+        if (tutorialPhase == Phase.First)
         {
-            case 0:
-                newTag = "Bread";
-                feedbackText.text = "Alright, You have a slice of bread, where should it go?";
-                return bread;
+            switch ((int)Random.Range(0, 3))
+            {
 
-            case 1:
-                newTag = "PB";
-                feedbackText.text = "Alright, You have some Peanut Butter, where should it go?";
-                return peanutButter;
+                case 0:
+                    newTag = "Bread";
+                    feedbackText.text = "Alright, You have a slice of bread, where should it go?";
+                    return bread;
 
-            case 2:
-                newTag = "Jelly";
-                feedbackText.text = "Alright, You have some Jelly, where should it go?";
-                return jelly;
+                case 1:
+                    newTag = "PB";
+                    feedbackText.text = "Alright, You have some Peanut Butter, where should it go?";
+                    return peanutButter;
 
+                case 2:
+                    newTag = "Jelly";
+                    feedbackText.text = "Alright, You have some Jelly, where should it go?";
+                    return jelly;
+            }
+            
+        }
+        else
+        {
+            switch ((int)Random.Range(0, 3))
+            {
+
+                case 0:
+                    newTag = "Bread";
+                    return bread;
+
+                case 1:
+                    newTag = "PB";
+                    return peanutButter;
+
+                case 2:
+                    newTag = "Jelly";
+                    return jelly;
+            }
         }
         return null;
     }
@@ -178,11 +213,22 @@ public class TutorialControllerScript : MonoBehaviour
 
     bool CheckScoring()
     {
+        // Check for changing phase
+        if (sliceCount > 4)
+        {
+            tutorialPhase = Phase.Second;
+        }
+        else if (sliceCount > 12)
+        {
+            tutorialPhase = Phase.Third;
+        }
+
         // check for correct order of ingredients
         if (tower[1] == "Bread" &&
             (tower[0] == "PB" || tower[0] == "Jelly"))
         {
             feedbackText.text = "Yep, Peanut Butter or Jelly can go on a slice of bread";
+            sliceCount++;
             return true;
 
         }
@@ -192,6 +238,7 @@ public class TutorialControllerScript : MonoBehaviour
             tower[1] == "Jelly"))
         {
             feedbackText.text = "That's right, you can put Peanutbutter on Jelly or Jelly on Peanut butter";
+            sliceCount++;
             return true;
         }
         else if (tower[0] == "bread" &&
@@ -201,6 +248,7 @@ public class TutorialControllerScript : MonoBehaviour
             tower[2] == "Jelly"))
         {
             feedbackText.text = "Good job, bread should go on the sandwich after you put down peanut butter and jelly";
+            sliceCount++;
             return true;
         }
         else
@@ -208,6 +256,7 @@ public class TutorialControllerScript : MonoBehaviour
             feedbackText.text = "Oops, that doesn't go on yet.  Maybe you should check the order of ingredients again";
             return false;
         }
+        
     }
 
     void CheckLives()
