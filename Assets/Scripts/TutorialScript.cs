@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using PlayMaker;
 
 public class TutorialScript : MonoBehaviour {
 
@@ -17,6 +18,9 @@ public class TutorialScript : MonoBehaviour {
     [SerializeField]
     Text tutorialText;
 
+    [SerializeField]
+    PlayMakerFSM TutorialFSM;
+
     int i = 0;
     
     #endregion
@@ -24,9 +28,9 @@ public class TutorialScript : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        tutorialText.text = "Welcome to the Tutorial.  Here you will see how the game is played and how to earn points."
-            + "\n\n\n\n" + "Hit space to play the game and progress the tutorial";
-
+        tutorialText.text = "\n\n\n\n" + "Welcome to the Tutorial.  Here you will see how the game is played and how to earn points."
+            + "Hit space to play the game and progress the tutorial";
+        
     }
 	
 	// Update is called once per frame
@@ -41,6 +45,15 @@ public class TutorialScript : MonoBehaviour {
         {
             ProgressTutorial();
         }
+
+        if (i == 2 &&
+            (airObject.transform.position.x <= 0.2 &&
+            airObject.transform.position.x >= -0.2))
+        {
+            TutorialFSM.SetState("Dropping");
+            tutorialText.text = "\n\n\n\n" + "That's where you want to drop all the correct ingredients on your sandwich.";
+            ++i;
+        }
 		
 	}
 
@@ -49,8 +62,18 @@ public class TutorialScript : MonoBehaviour {
         switch (i)
         {
             case 0:
-                tutorialText.text = "Alright, now you see that pressing space causes the piece in the air to fall down"
-                    + "\n\n\n\n" + "You want to build your sandwich on the little platform in the middle";
+                tutorialText.text = "\n\n\n\n" + "Alright, now you see that pressing space causes the piece in the air to fall down"
+                    + "You want to build your sandwich on the little platform in the middle";
+                i++;
+                break;
+
+            case 1:
+                tutorialText.text = "\n\n\n\n" +  "Watch as the bread falls onto the platform, this is what you need to do";
+                i++;
+                break;
+            case 3:
+                tutorialText.text = "\n\n\n\n" + "Next, you have some Peanut Butter";
+                i++;
                 break;
         }
     }
