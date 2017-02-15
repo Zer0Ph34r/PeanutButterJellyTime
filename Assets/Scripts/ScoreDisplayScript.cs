@@ -33,6 +33,7 @@ public class ScoreDisplayScript : MonoBehaviour {
             PercentageOfSuccess = 50;
         }
 
+        // Compare Snadwiches made to highscore
        if (GlobalsScript.HIGHSANDWICHES <= GlobalsScript.SANDWICHES)
         {
             PercentageOfSuccess += 100;
@@ -42,6 +43,7 @@ public class ScoreDisplayScript : MonoBehaviour {
             PercentageOfSuccess += 100 * (GlobalsScript.SANDWICHES / GlobalsScript.HIGHSANDWICHES);
         }
 
+       // compare score with highscore
         if (GlobalsScript.HIGHSCORE <= GlobalsScript.SCORE)
         {
             PercentageOfSuccess += 100;

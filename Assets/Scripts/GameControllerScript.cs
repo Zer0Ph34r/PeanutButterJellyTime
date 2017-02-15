@@ -22,9 +22,6 @@ public class GameControllerScript : MonoBehaviour {
 
     #endregion
 
-    // reference to main camera
-    Camera mainCamera;
-
     // reference to walls
     GameObject[] walls;
 
@@ -78,9 +75,6 @@ public class GameControllerScript : MonoBehaviour {
         peanutButter = Resources.Load<GameObject>("Prefabs/PeanutButterPrefab");
         jelly = Resources.Load<GameObject>("Prefabs/JellyPrefab");
 
-        // Get Camera
-        mainCamera = Camera.main;
-
         // Reference objects 
         walls = new GameObject[2];
         walls = GameObject.FindGameObjectsWithTag("Wall");
@@ -88,8 +82,8 @@ public class GameControllerScript : MonoBehaviour {
         // GetComponent current object in the air
         inAir = GameObject.FindGameObjectWithTag("InAir");
         tower = new string[4];
-        tower[0] = "PB";
-        tower[1] = "Jelly";
+        tower[0] = "Jelly";
+        tower[1] = "PB";
         tower[2] = "Bread";
         tower[3] = "Bread";
 
@@ -214,12 +208,13 @@ public class GameControllerScript : MonoBehaviour {
 
     bool CheckScoring()
     {
+        // check scoring and save return value
+        bool retValue;
+        retValue = CheckOrder();
+
         // add to list of objects
         sandwich.Add(inAir);
         slicePos.Add(inAir.transform.position);
-
-        bool retValue;
-        retValue = CheckOrder();
 
         #region Sandwich Check
         // Increase tower size count
@@ -302,13 +297,10 @@ public class GameControllerScript : MonoBehaviour {
     bool CheckOrder()
     {
         // check for correct order of ingredients
-        if (newTag == tower[0])
-        {
-            return true;
-        }
-        else if ((newTag == "PB" ||
-            newTag == "Jelly") &&
-            tower[0] == "Bread")
+        if ((newTag == "PB" &&
+            tower[0] == "Bread") ||
+            (newTag == "Jelly" &&
+            tower[0] == "Bread") )
         {
             return true;
         }
@@ -321,11 +313,12 @@ public class GameControllerScript : MonoBehaviour {
         {
             return true;
         }
-        else if (newTag == "bread" &&
+        else if (newTag == "Bread" &&
             (tower[0] == "Jelly" &&
             tower[1] == "PB" &&
             tower[2] == "Bread") ||
-            (tower[0] == "PB" &&
+            (newTag == "Bread" && 
+            tower[0] == "PB" &&
             tower[1] == "Jelly" &&
             tower[2] == "Bread"))
         {
