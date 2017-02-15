@@ -33,13 +33,13 @@ public class ScoreDisplayScript : MonoBehaviour {
             PercentageOfSuccess = 50;
         }
 
-       if (GlobalsScript.HIGHSLICES <= GlobalsScript.SLICES)
+       if (GlobalsScript.HIGHSANDWICHES <= GlobalsScript.SANDWICHES)
         {
             PercentageOfSuccess += 100;
         }
-        else if (GlobalsScript.HIGHSLICES > GlobalsScript.SLICES)
+        else if (GlobalsScript.HIGHSANDWICHES > GlobalsScript.SANDWICHES)
         {
-            PercentageOfSuccess += 100 * (GlobalsScript.SLICES / GlobalsScript.HIGHSLICES);
+            PercentageOfSuccess += 100 * (GlobalsScript.SANDWICHES / GlobalsScript.HIGHSANDWICHES);
         }
 
         if (GlobalsScript.HIGHSCORE <= GlobalsScript.SCORE)
@@ -55,13 +55,13 @@ public class ScoreDisplayScript : MonoBehaviour {
         #endregion
 
         scoreText.text = "Alright, after all that work, let's see how you did. \n" 
-            + "First, lets see how many slices you put on your sandwich tower: \n"
-            + GlobalsScript.SLICES + "\n" 
+            + "First, lets see how many sandwiches you made: \n"
+            + GlobalsScript.SANDWICHES + "\n" 
             + "Now we take a look at your final score: \n"
             + (GlobalsScript.SCORE * 100) + "\n"
             + "And Finally, your overall alignment of your tower: \n"
             + GlobalsScript.ALIGNMENT + "\n" + "\n"
-            + "That Leaves you with a score of : " + (PercentageOfSuccess * 100) + "Out of 100 % Possible."
+            + "That Leaves you with a score of : " + (PercentageOfSuccess * 100) + " Out of 100 % Possible."
             + "\n\n" + "How did you do? Are you satisfied with your results?";
     }
 }

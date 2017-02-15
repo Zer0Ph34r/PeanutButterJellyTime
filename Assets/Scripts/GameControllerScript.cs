@@ -5,9 +5,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameContrllerScript : MonoBehaviour {
+public class GameControllerScript : MonoBehaviour {
 
     #region Fields
+
+    #region objects
 
     // Top object
     GameObject stackTop;
@@ -18,8 +20,7 @@ public class GameContrllerScript : MonoBehaviour {
     GameObject peanutButter;
     GameObject jelly;
 
-    // Current y position
-    int yPosition = 0;
+    #endregion
 
     // reference to main camera
     Camera mainCamera;
@@ -28,9 +29,10 @@ public class GameContrllerScript : MonoBehaviour {
     GameObject[] walls;
 
     // string for storing last object placed on pile
-    string newTag = "Bread";
-    string[] tower;
-    public List<GameObject> sandwich;
+    public string newTag = "Bread";
+    public string[] tower;
+    List<GameObject> sandwich;
+    List<Vector3> slicePos;
 
     // alignment variable for final scoring
     float alignment = 0;
@@ -39,11 +41,15 @@ public class GameContrllerScript : MonoBehaviour {
     int score = 0;
     int lives = 3;
 
+    #region Serialized Fields
+
     // Serialized Fields
     [SerializeField]
     Text scoreText;
     [SerializeField]
     Text livesText;
+    [SerializeField]
+    Text sandwichText;
     [SerializeField]
     bool infiniteLives;
 
@@ -53,11 +59,19 @@ public class GameContrllerScript : MonoBehaviour {
 
     #endregion
 
+    // count for sandwich
+    int sandwichCount = 0;
+
+    #endregion
+
+    #region Start 
+
     // Use this for initialization
     void Start () {
 
         // initialize sandwich list
         sandwich = new List<GameObject>();
+        slicePos = new List<Vector3>();
 
         // Load in game Prefabs
         bread = Resources.Load<GameObject>("Prefabs/BreadPrefab");
@@ -73,22 +87,28 @@ public class GameContrllerScript : MonoBehaviour {
 
         // GetComponent current object in the air
         inAir = GameObject.FindGameObjectWithTag("InAir");
-        tower = new string[3];
+        tower = new string[4];
         tower[0] = "PB";
         tower[1] = "Jelly";
         tower[2] = "Bread";
+        tower[3] = "Bread";
 
         // set initial score and life text
         livesText.text = "Lives = " + lives;
         scoreText.text = "Score = " + score * 100;
+        sandwichText.text = "Sandwiches = " + GlobalsScript.SANDWICHES;
 
         // add event resolution
         BelowBoundsScript.resolveCollision += SetScene;
         BelowBoundsScript.resolveDrop += CheckLives;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    #endregion
+
+    #region Update
+
+    // Update is called once per frame
+    void Update () {
 
         if (infiniteLives && lives < 3)
         {
@@ -115,18 +135,22 @@ public class GameContrllerScript : MonoBehaviour {
         // Write strings
         livesText.text = "Lives = " + lives;
         scoreText.text = "Score = " + score * 100;
+        sandwichText.text = "Sandwiches = " + GlobalsScript.SANDWICHES;
 
         // Record alignment of stack
         alignment = 0;
-        foreach (GameObject slice in sandwich)
+        foreach (Vector3 slice in slicePos)
         {
-            alignment += (Math.Abs(slice.transform.position.x) / sandwich.Count);
+            alignment += (Math.Abs(slice.x) / slicePos.Count);
         }
         GlobalsScript.ALIGNMENT = alignment;
 
     }
+    #endregion
 
     #region Methods
+
+    #region SelectObject
 
     // return a random onject to create
     GameObject selectObject()
@@ -149,27 +173,28 @@ public class GameContrllerScript : MonoBehaviour {
         return null;
     }
 
+
+    #endregion
+
+    #region Create New Object
+
     void CreateNewObject()
     {
         // create a new in air object
         stackTop = inAir;
-        inAir = Instantiate<GameObject>(selectObject(), new Vector3(0, yPosition, 0), Quaternion.identity);
+        inAir = Instantiate<GameObject>(selectObject(), new Vector3(0, 4, 0), Quaternion.identity);
     }
 
+    #endregion
+
+    #region Set Scene
+    /// <summary>
+    /// Resets scene after a pice falls or is placed
+    /// </summary>
     void SetScene()
     {
-        // Move camera and wall up by one so the tower can get as tall as possible
-        yPosition++;
-        mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, yPosition, mainCamera.transform.position.z);
-        foreach (GameObject wall in walls)
-        {
-            wall.transform.position = new Vector3(wall.transform.position.x, yPosition, wall.transform.position.z);
-        }
-        // add new string to list
-        tower[2] = tower[1];
-        tower[1] = tower[0];
-        tower[0] = newTag;
 
+        // Adds or subtracts score
         if (CheckScoring())
         {
             score++;
@@ -183,29 +208,126 @@ public class GameContrllerScript : MonoBehaviour {
         CreateNewObject();
     }
 
+    #endregion
+
+    #region Check Scoring
+
     bool CheckScoring()
     {
         // add to list of objects
         sandwich.Add(inAir);
-        GlobalsScript.SLICES++;
+        slicePos.Add(inAir.transform.position);
+
+        bool retValue;
+        retValue = CheckOrder();
+
+        #region Sandwich Check
+        // Increase tower size count
+        sandwichCount++;
+
+        // add new string to list
+        tower[3] = tower[2];
+        tower[2] = tower[1];
+        tower[1] = tower[0];
+        tower[0] = newTag;
+        // if the tower is 4 tall
+        if (sandwichCount >= 4)
+        {
+            // if a propper sandwich was made
+            if (tower[0] == "Bread" &&
+                tower[1] == "Jelly" &&
+                tower[2] == "PB" &&
+                tower[3] == "Bread")
+            {
+                GlobalsScript.SANDWICHES++;
+            }
+            else if (tower[0] == "Bread" &&
+                tower[1] == "PB" &&
+                tower[2] == "Jelly" &&
+                tower[3] == "Bread")
+            {
+                GlobalsScript.SANDWICHES++;
+            }
+            else
+            {
+                lives--;
+            }
+            // Reset Tower strings
+            tower[0] = "PB";
+            tower[1] = "Jelly";
+            tower[2] = "Bread";
+            tower[3] = "Bread";
+            // delete objects in tower and reset list
+            for (int i = sandwich.Count - 1; i >= 0; --i)
+            {
+                Destroy(sandwich[i]);
+            }
+            sandwich = new List<GameObject>();
+            sandwichCount = 0;
+        }
+
+        #endregion
+
+        return retValue;
+
+    }
+
+    #endregion
+
+    #region Check Lives
+
+    /// <summary>
+    /// Checks what is on the tower for seeing if the dropped item should have been dropped
+    /// </summary>
+    void CheckLives()
+    {
+        if (!CheckOrder())
+        {
+            score++;
+        }
+        else
+        {
+            lives--;
+        }
+
+        CreateNewObject();
+    }
+    #endregion
+
+    #region Check Order
+    /// <summary>
+    /// Checks if the most recent piece was correct to go on next
+    /// </summary>
+    /// <returns></returns>
+    bool CheckOrder()
+    {
         // check for correct order of ingredients
-        if (tower[1] == "Bread" &&
-            (tower[0] == "PB" || tower[0] == "Jelly"))
+        if (newTag == tower[0])
         {
             return true;
         }
-        else if ((tower[0] == "Jelly" &&
-            tower[1] == "PB") ||
+        else if ((newTag == "PB" ||
+            newTag == "Jelly") &&
+            tower[0] == "Bread")
+        {
+            return true;
+        }
+        else if ((newTag == "Jelly" &&
+            tower[0] == "PB" &&
+            tower[1] == "Bread") ||
+            (newTag == "PB" &&
+            tower[0] == "Jelly" &&
+            tower[1] == "Bread"))
+        {
+            return true;
+        }
+        else if (newTag == "bread" &&
+            (tower[0] == "Jelly" &&
+            tower[1] == "PB" &&
+            tower[2] == "Bread") ||
             (tower[0] == "PB" &&
-            tower[1] == "Jelly"))
-        {
-            return true;
-        }
-        else if (tower[0] == "bread" &&
-            (tower[1] == "Jelly" &&
-            tower[2] == "PB") ||
-            (tower[1] == "PB" &&
-            tower[2] == "Jelly"))
+            tower[1] == "Jelly" &&
+            tower[2] == "Bread"))
         {
             return true;
         }
@@ -215,38 +337,7 @@ public class GameContrllerScript : MonoBehaviour {
         }
     }
 
-    void CheckLives()
-    {
-        // check for correct order of ingredients
-        if (tower[0] == "Bread" &&
-            (newTag == "PB" || newTag == "Jelly"))
-        {
-            lives--;
-        }
-        else if (newTag == "bread" &&
-            (tower[0] == "Jelly" &&
-            tower[1] == "PB") ||
-            (tower[0] == "PB" &&
-            tower[1] == "Jelly"))
-        {
-            lives--;
-        }
-        else if ((newTag == "Jelly" &&
-            tower[0] == "PB" &&
-            tower[1] == "Bread") ||
-            (newTag == "PB" &&
-            tower[0] == "Jelly" &&
-            tower[1] == "Bread"))
-        {
-            lives--;
-        }
-        else
-        {
-            score++;
-        }
-
-        CreateNewObject();
-    }
+    #endregion
 
     #endregion
 }
