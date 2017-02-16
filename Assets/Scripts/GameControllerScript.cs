@@ -71,9 +71,20 @@ public class GameControllerScript : MonoBehaviour {
         slicePos = new List<Vector3>();
 
         // Load in game Prefabs
-        bread = Resources.Load<GameObject>("Prefabs/BreadPrefab");
-        peanutButter = Resources.Load<GameObject>("Prefabs/PeanutButterPrefab");
-        jelly = Resources.Load<GameObject>("Prefabs/JellyPrefab");
+        if (SceneManager.GetActiveScene().name == "GameScene")
+        {
+            // these move faster
+            bread = Resources.Load<GameObject>("Prefabs/testBread");
+            peanutButter = Resources.Load<GameObject>("Prefabs/TestPB");
+            jelly = Resources.Load<GameObject>("Prefabs/TestJelly");
+        }
+        else
+        {
+            bread = Resources.Load<GameObject>("Prefabs/BreadPrefab");
+            peanutButter = Resources.Load<GameObject>("Prefabs/PeanutButterPrefab");
+            jelly = Resources.Load<GameObject>("Prefabs/JellyPrefab");
+            
+        }
 
         // Reference objects 
         walls = new GameObject[2];
